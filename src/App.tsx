@@ -1,56 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React , {useState} from 'react';
+import Header from './app/component/Header';
+import SidebarItem from './app/component/SidebarItem';
+import {Sidebar} from './app/component/Sidebar';
+import Dashbord from './app/component/Dashbord';
+import PostEdit from './app/component/PostEdit';
+
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { searchPost } from './app/component/PostSlice';
+
 
 function App() {
+  
+  const dispatch = useDispatch();
+   
+  const searchFromHeader = (searchText:string)=>{
+    dispatch(searchPost(searchText));
+  }  
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+    <div className=" bg-gray-50  ">
+     <Header searchHeader={searchFromHeader} />
+       <div className=' flex h-[100%] bg-blue '>
+        <SidebarItem />
+        <Routes >
+            <Route path="/" element={<Dashbord /> } />
+            <Route path="/dashbord" element={<Dashbord /> } />
+            <Route path="/postEdit/" element={<PostEdit  /> } />
+            <Route path="/postEdit/:id" element={<PostEdit  /> } />
+        </Routes>
+      </div> 
     </div>
   );
 }
